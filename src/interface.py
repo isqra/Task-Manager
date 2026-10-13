@@ -1,67 +1,51 @@
 import tkinter as tk
 
-score = 0
-num1 = 0
-num2 = 0
-
-def summ():
-    result = num1 + num2
-    print(f"Ответ:{result}")
-
-def diff():
-    result = num1 - num2
-    print(f"<UNK>:{result}")
-
-def division():
-    result = num1 / num2
-    print(f"<UNK>:{result}")
-
-def multiplication():
-    result = num1 * num2
-    print(f"<UNK>:{result}")
-
-def exponentiation():
-    result = num1 ** num2
-    print(f"<UNK>:{result}")
-
-def start():
-    global score
-    score += 1
-    label.config(text=str(score))
-    print("Hello")
-
 root = tk.Tk()
+root.geometry("300x300")
 
-root.geometry("500x500")
+collection = ["task_1 | create menu", "task_2 | add main", "task_3 | update main", "task_4 | delete main"]
 
-header = tk.Frame(root, bg="black", height=100, width=200)
-header.pack(side="top", fill="x")
 
-main = tk.Frame(root, bg="light blue", height=300, width=300)
-main.pack(side='bottom', fill='x')
+frame_menu = None
+frame_tasks = None
+tasks = None
 
-footer = tk.Frame(root, bg="black", height=100, width=200)
-footer.pack(side="bottom", fill="x")
+def main():
+    global frame_menu, frame_tasks, tasks
+    frame_menu = tk.Frame(root, background="grey", width=500, height=500)
+    frame_tasks = tk.Frame(root, background="green", width=500, height=500)
+    frame_menu.pack_propagate(False)
+    frame_tasks.pack_propagate(False)
 
-button_start = tk.Button(main, text="start", command=start)
-button_start.pack()
+    button_show_tasks = tk.Button(frame_menu, text="Все задачи", command=show_all_tasks)
+    button_show_tasks.pack()
 
-button_summ = tk.Button(main, text="sum", command=summ)
-button_summ.pack()
+    button_exit = tk.Button(frame_menu, text="Exit", command=create_menu)
+    button_exit.pack()
+    tasks = tk.Listbox(frame_tasks)
+    tasks.pack()
 
-button_division = tk.Button(main, text="division", command=division)
-button_division.pack()
+    return frame_menu, frame_tasks
 
-button_multiply = tk.Button(main, text="multiplication", command=multiplication)
-button_multiply.pack()
+def show_all_tasks():
+    frame_menu.pack_forget()
+    frame_tasks.pack()
 
-button_exponentiation = tk.Button(main, text="exponentiation", command=exponentiation)
-button_exponentiation.pack()
+    tasks.delete(0, tk.END)
 
-button_diff = tk.Button(main, text="diff", command=diff)
-button_diff.pack()
+    for number, content in enumerate(collection):
+        word = ''
+        for symbol in content:
+            if symbol != '|':
+                word = f"{word}{symbol}"
+            else:
+                break
+        tasks.insert(tk.END, word)
 
-label = tk.Label(root, text="Hello World")
-label.pack()
+def create_menu():
+    frame_tasks.pack_forget()
+    frame_menu.pack()
 
+main()
+create_menu()
 root.mainloop()

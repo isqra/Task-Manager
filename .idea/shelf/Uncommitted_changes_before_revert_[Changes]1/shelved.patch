@@ -1,0 +1,21 @@
+Index: main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import app\r\n\r\nif __name__ == '__main__':\r\n        app.app()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.py b/main.py
+--- a/main.py	(revision 95e6aed272470d73ff6162dff4699b43d3364588)
++++ b/main.py	(date 1792493438888)
+@@ -1,4 +1,8 @@
+ import app
++from ui.interface import Interface
++
+ 
+ if __name__ == '__main__':
+-        app.app()
++        # app.app()
++        i = Interface()
++        i.root.mainloop()
+\ No newline at end of file

@@ -1,0 +1,95 @@
+Index: src/ui/frame.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import tkinter as tk\r\n\r\nclass AppFrame(tk.Frame):\r\n    def __init__(self, master, color, width, height):\r\n        super().__init__(master, background=color, width=width, height=height)\r\n        self.background = color\r\n        self.master = master\r\n        self.width = width\r\n        self.height = height\r\n        self.pack_propagate(False)\r\n        self.pack()\r\n        print(color)\r\n
+===================================================================
+diff --git a/src/ui/frame.py b/src/ui/frame.py
+--- a/src/ui/frame.py	(revision 95e6aed272470d73ff6162dff4699b43d3364588)
++++ b/src/ui/frame.py	(date 1792494128912)
+@@ -9,4 +9,10 @@
+         self.height = height
+         self.pack_propagate(False)
+         self.pack()
+-        print(color)
++
++
++    def hide(self, event: bool):
++        if event:
++            self.pack_forget()
++        else:
++            self.pack()
+\ No newline at end of file
+Index: .idea/Task-Manager.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"PYTHON_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\" />\r\n    <orderEntry type=\"jdk\" jdkName=\"Python 3.13\" jdkType=\"Python SDK\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n</module>
+===================================================================
+diff --git a/.idea/Task-Manager.iml b/.idea/Task-Manager.iml
+--- a/.idea/Task-Manager.iml	(revision 95e6aed272470d73ff6162dff4699b43d3364588)
++++ b/.idea/Task-Manager.iml	(date 1792492106879)
+@@ -1,7 +1,9 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <module type="PYTHON_MODULE" version="4">
+   <component name="NewModuleRootManager">
+-    <content url="file://$MODULE_DIR$" />
++    <content url="file://$MODULE_DIR$">
++      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
++    </content>
+     <orderEntry type="jdk" jdkName="Python 3.13" jdkType="Python SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+   </component>
+Index: src/ui/interface.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import tkinter as tk\r\nfrom frame import AppFrame\r\n\r\nclass Interface:\r\n    def __init__(self, window_h=444, window_w=444):\r\n        self.root = tk.Tk()\r\n        self.root_w = window_w\r\n        self.root_h = window_h\r\n        self.root.geometry(f\"{self.root_w}x{self.root_h}\")\r\n\r\n        self.frames = {}\r\n        self.buttons = []\r\n\r\n        self.create_interface()\r\n\r\n        self.root.mainloop()\r\n\r\n    def create_interface(self):\r\n        self.create_frame([\"Menu\", \"Tasks\"])\r\n        self.create_buttons()\r\n\r\n    def create_frame(self, name_frame):\r\n        frame = AppFrame(self.root, \"black\", self.root_w, self.root_h)\r\n        for i in range(len(name_frame)):\r\n            self.frames[name_frame[i]] = frame\r\n\r\n\r\n    def create_buttons(self):\r\n        pass\r\n\r\n\r\ninterface = Interface()
+===================================================================
+diff --git a/src/ui/interface.py b/src/ui/interface.py
+--- a/src/ui/interface.py	(revision 95e6aed272470d73ff6162dff4699b43d3364588)
++++ b/src/ui/interface.py	(date 1792494128896)
+@@ -1,9 +1,10 @@
+ import tkinter as tk
+-from frame import AppFrame
++from ui.frame import AppFrame
+ 
+ class Interface:
+     def __init__(self, window_h=444, window_w=444):
+         self.root = tk.Tk()
++
+         self.root_w = window_w
+         self.root_h = window_h
+         self.root.geometry(f"{self.root_w}x{self.root_h}")
+@@ -13,20 +14,20 @@
+ 
+         self.create_interface()
+ 
+-        self.root.mainloop()
+-
+     def create_interface(self):
+         self.create_frame(["Menu", "Tasks"])
+         self.create_buttons()
+ 
+     def create_frame(self, name_frame):
+-        frame = AppFrame(self.root, "black", self.root_w, self.root_h)
++        c = ["black", "grey"]
++
+         for i in range(len(name_frame)):
++            frame = AppFrame(self.root, c, self.root_w, self.root_h)
+             self.frames[name_frame[i]] = frame
+ 
++        print(self.frames)
++
+ 
+     def create_buttons(self):
+-        pass
+-
+-
+-interface = Interface()
+\ No newline at end of file
++        button_show_tasks = tk.Button(self.frame["Menu"], text="Все задачи")
++        button_show_tasks.pack()
+diff --git a/src/interface.py b/src/interface(not main).py
+rename from src/interface.py
+rename to src/interface(not main).py
+diff --git a/src/interface.py b/src/interface(not main).py
+rename from src/interface.py
+rename to src/interface(not main).py

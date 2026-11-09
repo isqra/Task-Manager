@@ -1,6 +1,5 @@
-from ui.interface import Interface
-
+from Interface import Interface
 
 if __name__ == "__main__":
-    calculator = Interface()
-    calculator.window.mainloop()
+    app = Interface()
+    app.run()

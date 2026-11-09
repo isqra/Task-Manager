@@ -1,15 +1,12 @@
-def show_collection(task_collection):
-    print("=" * 45)
-    for i, j in enumerate(task_collection):
-        print(i + 1, j)
-    print("=" * 45)
+from AppLabel import AppLabel
+from AppButton import AppButton
 
-def show_message(message):
-    print(f"{message}\n")
+def show_message(parent, message, title = "Информация"):
+    from tkinter import messagebox
+    messagebox.showinfo(title, message, parent=parent)
 
-def show_menu():
-    print("1. Показать задачи \n"
-          "2. Добавить задачу \n"
-          "3. Редактировать задачи \n"
-          "4. Удаление задачи \n"
-          "5. Выход")
+def update_task_list(listbox, tasks):
+    listbox.delete(0, "end")
+    for task in tasks:
+        status = "Y" if task.get("done") else " "
+        listbox.insert("end", f"[{status}] {task["title"]}")

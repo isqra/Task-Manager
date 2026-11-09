@@ -1,38 +1,37 @@
-from utils import check_number
-from view import show_message
+from storage import load_tasks, save_tasks
 
-def add_task(task_collection):
-    task_name = input("Введите имя задачи для добавления: ")
-    task_content = input("Введите содержание задачи: ")
+class TaskManager:
+    def __init__(self) -> None:
+        self.tasks = load_tasks()
 
-    if not task_content.strip():
-        show_message("Содержание задачи не может быть пустым")
-    else:
+    def add_task(self, title, description=""):
+        if not title or not title.strip():
+            raise ValueError("Название задачи не может быть пустым")
+        task = {
+            "id" : len(self.tasks) + 1,
+            "title" : title.strip(),
+            "description" : description.strip(),
+            "done" : False,
+        }
+        self.tasks.append(task)
+        save_tasks(self.tasks)
+        return task
 
-        if not task_name.strip():
-            show_message("Название не может быть пустым")
-        else:
-            task_collection.append(f"{task_name} | {task_content}")
-            show_message(f"Задача > {task_name} < успешно добавлена")
+    def delete_task(self, index):
+        if 0 <= index < len(self.tasks):
+            self.tasks.pop(index)
+            save_tasks(self.tasks)
 
-def delete_tasks(task_collection):
-    delete_task = input("Введите номер задачи: ")
-    if check_number(delete_task, task_collection):
-        task_collection.pop(int(delete_task) - 1)
-        show_message(f"Задача > {delete_task} < удалена")
+    def toggle_done(self, index):
+        if (0 <= index < len(self.tasks)):
+            self.tasks[index]["done"] = not self.tasks[index]["done"]
+            save_tasks(self.tasks)
 
-
-def edit_task(task_collection):
-    select_task = input("Введите номер задачи: ")
-    if check_number(select_task, task_collection):
-        new_task_name = input("Новое имя задачи: ")
-        if not new_task_name.strip():
-            show_message("Название не может быть пустым")
-        else:
-            new_task_content = input("Содержание новой задачи: ")
-            if not new_task_content.strip():
-                show_message("Содержание не может быть пустым")
-            else:
-
-                task_collection[int(select_task) - 1] = f"{new_task_name} | {new_task_content}"
-                show_message("Задача успешно изменена")
+    def edit_task(self, index, title, description):
+        if not (0 <= index < len(self.tasks)):
+            return
+        if not title or not title.strip():
+            raise ValueError("Название не моежт быть пустым")
+        self.tasks[index]["title"] = title.strip()
+        self.tasks[index]["description"] = description.strip()
+        save_tasks(self.tasks)

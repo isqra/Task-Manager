@@ -1,2 +1,12 @@
-pip install pyinstaller
-pyinstaller --onefile --name "TaskManager" main.py
+# Installing (Установка и запуск)
+
+## Требования
+- Установленный Python
+- Встроенная библиотека 'tkinter' (идет вместе с Python).
+
+## Как запустить
+1. Скачайте или склонируйте репозиторий.
+2. Откройте терминал и перейдите в папку 'src':
+   cd путь/до/папки/Task-Manager/src
+3. Запустите файл main.py, находясь внутри 'src':
+   python main.py

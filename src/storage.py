@@ -1,12 +1,17 @@
-from config import NAME_FILE_SAVES
+import json
+import os
 
-def load_file(task_list):
-    with open(NAME_FILE_SAVES, 'r', encoding="utf-8") as file:
-        for line in file:
-            task_list.append(line.strip())
-    return task_list
+from config import TASKS_FILE
 
-def save_file(task_list):
-    with open(NAME_FILE_SAVES, "w", encoding="utf-8") as file:
-        for task in task_list:
-            file.write(task + "\n")
+def load_tasks():
+    if not os.path.exists(TASKS_FILE):
+        return []
+    try:
+        with open(TASKS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return []
+
+def save_tasks(tasks):
+    with open(TASKS_FILE, "w", encoding="utf-8") as f:
+        json.dump(tasks, f, indent=2)
